@@ -6,7 +6,7 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:26:37 by michel_32         #+#    #+#             */
-/*   Updated: 2026/03/31 18:30:43 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/01 14:12:44 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,25 @@ void  ScalarConverter::convert(const std::string &input)
     e_type type;
 
     type = determine_type(input);
+    switch (type)
+    {
+        case CHAR:
+            std::cout << "char" << std::endl;
+            break;
+        case INT:
+            std::cout << "int" << std::endl;
+            break;
+        case FLOAT:
+            std::cout << "float" << std::endl;
+            break;
+        case DOUBLE:
+            std::cout << "double" << std::endl;
+            break;
+        case SPECIAL:
+            std::cout << "special" << std::endl;
+            break;
+        case INVALID:
+            std::cout << "invalid" << std::endl;
+            break;
+    }
 }
