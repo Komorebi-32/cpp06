@@ -6,12 +6,15 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:26:37 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/01 16:02:25 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/01 17:52:34 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 #include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <sstream>
 
 ScalarConverter::ScalarConverter(void)
 {
@@ -136,14 +139,45 @@ void ScalarConverter::convert(const std::string &input)
 	e_type type;
 
 	type = determine_type(input);
+    if (type == INVALID)
+    {
+        std::cout << "invalid input" << std::endl;
+        return ;
+    }
+    
+    std::stringstream ss(input);
+	int i;
+    double d;
+	ss >> i;
+    ss >> d;
+
 	switch (type)
 	{
 	case CHAR:
-		std::cout << "char" << std::endl;
+	{
+		std::cout << "char: " << input << std::endl;
+		
+		std::cout << "int: " << i << std::endl;
+
+		std::cout << "float: " << strtof(input.c_str(), 0) << std::endl;
+		std::cout << "double: " << strtod(input.c_str(), 0) << std::endl;
 		break ;
+	}
 	case INT:
-		std::cout << "int" << std::endl;
+    {
+        if (std::isprint(i))
+        {
+            char c = i;
+            std::cout << "char: " << c << std::endl;            
+        }
+        else
+            std::cout << "char: Non displayable" << std::endl; 
+        std::cout << "int: " << input << std::endl;
+        std::cout << "float: " << strtof(input.c_str(), 0) << std::endl;
+		std::cout << "double: " << d << std::endl;
 		break ;
+    }
+		
 	case FLOAT:
 		std::cout << "float" << std::endl;
 		break ;
@@ -153,8 +187,7 @@ void ScalarConverter::convert(const std::string &input)
 	case SPECIAL:
 		std::cout << "special" << std::endl;
 		break ;
-	case INVALID:
-		std::cout << "invalid" << std::endl;
-		break ;
+    case INVALID:
+        break ;
 	}
 }
