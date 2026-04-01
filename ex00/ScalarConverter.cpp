@@ -6,7 +6,7 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:26:37 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/01 14:37:35 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/01 15:16:28 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,17 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter& copy)
     return (*this);
 }
 
-static bool input_is_an_int(const std::string &input, int *start)
+static long unsigned int get_single_char_index(std::string input, char to_find)
+{
+    long unsigned int find = input.find(to_find);
+
+    if ((find == input.rfind(to_find)) && find != std::string::npos)
+        return (find);
+    else
+        return (0);
+}
+
+static bool input_is_an_int(const std::string &input, long unsigned int *start)
 {
     if (*start == input.length())
         return (false);
@@ -47,7 +57,7 @@ static bool input_is_an_int(const std::string &input, int *start)
     return (false);
 }
 
-static bool input_is_a_double(const std::string &input, int *start, int *point_index)
+static bool input_is_a_double(const std::string &input, long unsigned int *start, long unsigned int *point_index)
 {
     if (input.find_first_not_of("0123456789", *start) == *point_index)
         *start = *point_index + 1;
@@ -59,34 +69,20 @@ static bool input_is_a_double(const std::string &input, int *start, int *point_i
         return (false);
 }
 
-static bool input_is_a_float(const std::string &input, int *start, int *point_index)
+static bool input_is_a_float(const std::string &input, long unsigned int *start)
 {
     if (get_single_char_index(input, 'f') != input.size() - 1)
-        return (false);
-    if (input.find_first_not_of("0123456789", *start) == *point_index)
-        *start = *point_index + 1;
-    else
-        return (false);
+        return (std::cout << "f not good place\n", false);
     if (input.find_first_not_of("0123456789", *start) == input.size() - 1)
         return (true);
     else
         return (false);
 }
 
-static int get_single_char_index(std::string input, char to_find)
-{
-    int find = input.find(to_find);
-
-    if ((find == input.rfind(to_find)) && find != std::string::npos)
-        return (find);
-    else
-        return (-1);
-}
-
 static e_type determine_type(const std::string &input)
 {
-    int point_index = -1;
-    int start = 0;
+    long unsigned int point_index = 0;
+    long unsigned int start = 0;
 
 
     if (input.empty())
@@ -104,12 +100,12 @@ static e_type determine_type(const std::string &input)
         return (INT);
     
     point_index = get_single_char_index(input, '.');
-    if (point_index == -1 || point_index == 0 || point_index == input.size() - 1)
+    if (point_index == 0 || point_index == input.size() - 1)
         return (INVALID);
     
     if (input_is_a_double(input, &start, &point_index))
         return (DOUBLE);
-    if (input_is_a_float(input, &start, &point_index))
+    if (input_is_a_float(input, &start))
         return (FLOAT);
     return (INVALID);
 }
