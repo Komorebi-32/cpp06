@@ -6,7 +6,7 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:26:37 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/03 16:44:44 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/03 18:03:57 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ static e_type	determine_type(const std::string &input)
 	return (input_is_a_double_or_float(input, &start, &point_index));
 }
 
-static void print_char(int i)
+static void print_result(int i, float f, double d)
 {
 	if (i >= 0 && i <= 127 && std::isprint(i))
 	{
@@ -147,6 +147,14 @@ static void print_char(int i)
 		std::cout << "char: impossible" << std::endl;
 	else
 		std::cout << "char: Non displayable" << std::endl;
+	
+	if (f >= INT_MIN && f <= INT_MAX)
+		std::cout << "int: " << i << std::endl;
+	else
+		std::cout << "int: impossible" << std::endl;
+	std::cout << std::fixed << std::setprecision(1); // to print one decimal
+	std::cout << "float: "  << f << "f" << std::endl;
+	std::cout << "double: " << d << std::endl;
 }
 
 void ScalarConverter::convert(const std::string &input)
@@ -164,11 +172,7 @@ void ScalarConverter::convert(const std::string &input)
 		float f = static_cast<float>(c);
 		double d = static_cast<double>(c);
 
-		std::cout << "char: '" << c << "'" << std::endl;
-		std::cout << "int: " << i << std::endl;
-		std::cout << std::fixed << std::setprecision(1); // to print one decimal
-		std::cout << "float: " << f << "f" << std::endl;
-		std::cout << "double: " << d << std::endl;
+		print_result(i, f, d);
 		break ;
 	}
 	case INT:
@@ -180,37 +184,17 @@ void ScalarConverter::convert(const std::string &input)
 		float f = static_cast<float>(i);
 		double d = static_cast<double>(i);
 
-		print_char(i);
-
-		std::cout << "int: " << i << std::endl;
-		std::cout << std::fixed << std::setprecision(1); // to print one decimal
-		std::cout << "float: " << f << "f" << std::endl;
-		std::cout << "double: " << d << std::endl;
+		print_result(i, f, d);
 		break ;
 	}
 
 	case FLOAT:
 	{
-		float f;
-		int i;
-		double d;
+		float f = std::strtof(input.c_str(), NULL);;
+		int i = static_cast<float>(f);
+		double d = static_cast<double>(f);
 
-		f = std::strtof(input.c_str(), NULL);
-		i = static_cast<float>(f);
-		d = static_cast<double>(f);
-
-		print_char(i);
-
-		if (f >= INT_MIN && f <= INT_MAX)
-			std::cout << "int: " << i << std::endl;
-		else
-			std::cout << "int: impossible" << std::endl;
-		std::cout << std::fixed << std::setprecision(1); // to print one decimal
-		std::cout << "float: "  << f << "f" << std::endl;
-		std::cout << "double: " << d << std::endl;
-
-		// std::cout << "float: " << std::strtof(input.c_str(), NULL) << "f" << std::endl;
-
+		print_result(i, f, d);
 		break ;
 	}
 	case DOUBLE:
@@ -219,15 +203,7 @@ void ScalarConverter::convert(const std::string &input)
 		float f = static_cast<float>(d);
 		int i = static_cast<int>(d);
 
-		print_char(i);
-
-		if (d >= INT_MIN && d <= INT_MAX)
-			std::cout << "int: " << i << std::endl;
-		else
-			std::cout << "int: impossible" << std::endl;
-		std::cout << std::fixed << std::setprecision(1); // to print one decimal
-		std::cout << "float: " << f << "f" << std::endl;
-		std::cout << "double: " << d << std::endl;
+		print_result(i, f, d);
 		break ;
 	}
 	case SPECIAL:
