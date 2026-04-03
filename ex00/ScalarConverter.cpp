@@ -6,16 +6,17 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:26:37 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/03 12:57:57 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/03 16:23:40 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include <sstream>
+#include <climits>
 #include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <stdlib.h>
+#include <string>
 
 ScalarConverter::ScalarConverter(void)
 {
@@ -77,7 +78,8 @@ static bool	input_is_an_int(const std::string &input, long unsigned int *start)
 // 		return (false);
 // }
 
-// static bool	input_is_a_float(const std::string &input, long unsigned int *start)
+// static bool	input_is_a_float(const std::string &input,
+		// long unsigned int *start)
 // {
 // 	if (get_single_char_index(input, 'f') != input.size() - 1)
 // 		return (std::cout << "f not good place\n", false);
@@ -90,24 +92,23 @@ static bool	input_is_an_int(const std::string &input, long unsigned int *start)
 static e_type	input_is_a_double_or_float(const std::string &input,
 		long unsigned int *start, long unsigned int *point_index)
 {
-    //check if only digits before the '.'
-    if (input.find_first_not_of("0123456789", *start) == *point_index)
+	// check if only digits before the '.'
+	if (input.find_first_not_of("0123456789", *start) == *point_index)
 		*start = *point_index + 1;
 	else
 		return (INVALID);
-
-    //check if double
+	// check if double
 	if (input.find_first_not_of("0123456789", *start) == std::string::npos)
 		return (DOUBLE);
-    else //check if float
-    {
-        if (get_single_char_index(input, 'f') != input.size() - 1)
-		    return (std::cout << "f not good place\n", INVALID);
-        if (input.find_first_not_of("0123456789", *start) == input.size() - 1)
-		    return (FLOAT);
-        else
-            return (INVALID);
-    }
+	else // check if float
+	{
+		if (get_single_char_index(input, 'f') != input.size() - 1)
+			return (std::cout << "f not good place\n", INVALID);
+		if (input.find_first_not_of("0123456789", *start) == input.size() - 1)
+			return (FLOAT);
+		else
+			return (INVALID);
+	}
 }
 
 static e_type	determine_type(const std::string &input)
@@ -152,48 +153,103 @@ void ScalarConverter::convert(const std::string &input)
 
 		std::cout << "char: '" << c << "'" << std::endl;
 		std::cout << "int: " << i << std::endl;
-		std::cout << std::fixed << std::setprecision(1); //to print one decimal
+		std::cout << std::fixed << std::setprecision(1); // to print one decimal
 		std::cout << "float: " << f << "f" << std::endl;
 		std::cout << "double: " << d << std::endl;
 		break ;
 	}
 	case INT:
-    {
+	{
 		std::stringstream ss(input);
 		int i;
 		if (!(ss >> i))
-			std::cout << "Warning: int overflow. Considering i == (+/-)INT_MAX." << std::endl;
+			std::cout << "Warning: int overflow. Considering input == (+/-)INT_MAX." << std::endl;
 		float f = static_cast<float>(i);
 		double d = static_cast<double>(i);
 
-        if (i >= 0 && i <= 127 && std::isprint(i))
-        {
-            char c = i;
-            std::cout << "char: '" << c << "'" << std::endl;            
-        }
-        else if (i > 127 || i < 0)
-        std::cout << "char: impossible" << std::endl;
-    	else
-        std::cout << "char: Non displayable" << std::endl;  
-		
-        std::cout << "int: " << i << std::endl;
-        std::cout << std::fixed << std::setprecision(1); //to print one decimal
+		if (i >= 0 && i <= 127 && std::isprint(i))
+		{
+			char c = i;
+			std::cout << "char: '" << c << "'" << std::endl;
+		}
+		else if (i > 127 || i < 0)
+			std::cout << "char: impossible" << std::endl;
+		else
+			std::cout << "char: Non displayable" << std::endl;
+
+		std::cout << "int: " << i << std::endl;
+		std::cout << std::fixed << std::setprecision(1); // to print one decimal
 		std::cout << "float: " << f << "f" << std::endl;
 		std::cout << "double: " << d << std::endl;
 		break ;
-    }
-		
+	}
+
 	case FLOAT:
-		std::cout << "float" << std::endl;
+	{
+		float f;
+		int i;
+		double d;
+
+		f = std::strtof(input.c_str(), NULL);
+		if (f >= INT_MIN && f <= INT_MAX)
+			i = static_cast<float>(f);
+		d = static_cast<double>(f);
+
+		if (f >= 0 && f <= 127 && std::isprint(f))
+		{
+			char c = f;
+			std::cout << "char: '" << c << "'" << std::endl;
+		}
+		else if (f > 127 || f < 0)
+			std::cout << "char: impossible" << std::endl;
+		else
+			std::cout << "char: Non displayable" << std::endl;
+
+		if (f >= INT_MIN && f <= INT_MAX)
+			std::cout << "int: " << i << std::endl;
+		else
+			std::cout << "int: impossible" << std::endl;
+		std::cout << std::fixed << std::setprecision(1); // to print one decimal
+		std::cout << "float: "  << f << "f" << std::endl;
+		std::cout << "double: " << d << std::endl;
+
+		// std::cout << "float: " << std::strtof(input.c_str(), NULL) << "f" << std::endl;
+
 		break ;
+	}
 	case DOUBLE:
-		std::cout << "double" << std::endl;
+	{
+		std::stringstream ss(input);
+		double d;
+		if (!(ss >> d))
+			std::cout << "Warning: double overflow. Considering input == (+/-)DBL_MAX." << std::endl;
+		float f = static_cast<float>(d);
+		int i = static_cast<int>(d);
+
+		if (d >= 0 && d <= 127 && std::isprint(i))
+		{
+			char c = d;
+			std::cout << "char: '" << c << "'" << std::endl;
+		}
+		else if (d > 127 || d < 0)
+			std::cout << "char: impossible" << std::endl;
+		else
+			std::cout << "char: Non displayable" << std::endl;
+
+		if (d >= INT_MIN && d <= INT_MAX)
+			std::cout << "int: " << i << std::endl;
+		else
+			std::cout << "int: impossible" << std::endl;
+		std::cout << std::fixed << std::setprecision(1); // to print one decimal
+		std::cout << "float: " << f << "f" << std::endl;
+		std::cout << "double: " << d << std::endl;
 		break ;
+	}
 	case SPECIAL:
 		std::cout << "special" << std::endl;
 		break ;
-    case INVALID:
+	case INVALID:
 		std::cout << "invalid input" << std::endl;
-        break ;
+		break ;
 	}
 }
