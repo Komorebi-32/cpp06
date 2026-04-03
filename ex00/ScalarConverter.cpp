@@ -6,7 +6,7 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:26:37 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/03 16:23:40 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/03 16:40:21 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void ScalarConverter::convert(const std::string &input)
 
 		if (i >= 0 && i <= 127 && std::isprint(i))
 		{
-			char c = i;
+			char c = static_cast<char>(i);
 			std::cout << "char: '" << c << "'" << std::endl;
 		}
 		else if (i > 127 || i < 0)
@@ -191,13 +191,12 @@ void ScalarConverter::convert(const std::string &input)
 		double d;
 
 		f = std::strtof(input.c_str(), NULL);
-		if (f >= INT_MIN && f <= INT_MAX)
-			i = static_cast<float>(f);
+		i = static_cast<float>(f);
 		d = static_cast<double>(f);
 
 		if (f >= 0 && f <= 127 && std::isprint(f))
 		{
-			char c = f;
+			char c = static_cast<char>(f);
 			std::cout << "char: '" << c << "'" << std::endl;
 		}
 		else if (f > 127 || f < 0)
@@ -219,16 +218,13 @@ void ScalarConverter::convert(const std::string &input)
 	}
 	case DOUBLE:
 	{
-		std::stringstream ss(input);
-		double d;
-		if (!(ss >> d))
-			std::cout << "Warning: double overflow. Considering input == (+/-)DBL_MAX." << std::endl;
+		double d = std::strtod(input.c_str(), NULL);
 		float f = static_cast<float>(d);
 		int i = static_cast<int>(d);
 
 		if (d >= 0 && d <= 127 && std::isprint(i))
 		{
-			char c = d;
+			char c = static_cast<char>(d);
 			std::cout << "char: '" << c << "'" << std::endl;
 		}
 		else if (d > 127 || d < 0)
