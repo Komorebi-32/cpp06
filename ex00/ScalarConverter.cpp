@@ -6,7 +6,7 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 14:26:37 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/01 17:52:34 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/03 12:33:30 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <string>
 #include <stdlib.h>
 #include <sstream>
+#include <iomanip>
 
 ScalarConverter::ScalarConverter(void)
 {
@@ -139,42 +140,35 @@ void ScalarConverter::convert(const std::string &input)
 	e_type type;
 
 	type = determine_type(input);
-    if (type == INVALID)
-    {
-        std::cout << "invalid input" << std::endl;
-        return ;
-    }
-    
-    std::stringstream ss(input);
-	int i;
-    double d;
-	ss >> i;
-    ss >> d;
 
 	switch (type)
 	{
 	case CHAR:
 	{
-		std::cout << "char: " << input << std::endl;
-		
-		std::cout << "int: " << i << std::endl;
+		char c = input[0];
+		int i = static_cast<int>(c);
+		float f = static_cast<float>(c);
+		double d = static_cast<double>(c);
 
-		std::cout << "float: " << strtof(input.c_str(), 0) << std::endl;
-		std::cout << "double: " << strtod(input.c_str(), 0) << std::endl;
+		std::cout << "char: " << c << std::endl;
+		std::cout << "int: " << i << std::endl;
+		std::cout << std::fixed << std::setprecision(1); //to print one decimal
+		std::cout << "float: " << f << "f" << std::endl;
+		std::cout << "double: " << d << std::endl;
 		break ;
 	}
 	case INT:
     {
-        if (std::isprint(i))
-        {
-            char c = i;
-            std::cout << "char: " << c << std::endl;            
-        }
-        else
-            std::cout << "char: Non displayable" << std::endl; 
-        std::cout << "int: " << input << std::endl;
-        std::cout << "float: " << strtof(input.c_str(), 0) << std::endl;
-		std::cout << "double: " << d << std::endl;
+        // if (std::isprint(i))
+        // {
+        //     char c = i;
+        //     std::cout << "char: " << c << std::endl;            
+        // }
+        // else
+        //     std::cout << "char: Non displayable" << std::endl; 
+        // std::cout << "int: " << input << std::endl;
+        // // std::cout << "float: " << strtof(input.c_str(), 0) << std::endl;
+		// std::cout << "double: " << d << std::endl;
 		break ;
     }
 		
@@ -188,6 +182,7 @@ void ScalarConverter::convert(const std::string &input)
 		std::cout << "special" << std::endl;
 		break ;
     case INVALID:
+		std::cout << "invalid input" << std::endl;
         break ;
 	}
 }
