@@ -6,7 +6,7 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:11:18 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/06 17:42:27 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/06 17:51:28 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,28 @@ Base *generate(void)
     {
         std::cout << "Generated C" << std::endl;
         return (new C());
+    }
+}
+
+void identify(Base* p)
+{
+    std::cout << "type of the object pointed to by p: ";
+    A* a_ptr = dynamic_cast<A *>(p);
+    if (a_ptr)
+    {
+        std::cout << "A" << std::endl;
+        return ;
+    }
+    B* b_ptr = dynamic_cast<B *>(p);
+    if (b_ptr)
+    {
+        std::cout << "B" << std::endl;
+        return ;
+    }
+    C* c_ptr = dynamic_cast<C *>(p);
+    if (c_ptr)
+    {
+        std::cout << "C" << std::endl;
+        return ;
     }
 }

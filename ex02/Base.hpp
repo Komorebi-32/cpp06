@@ -6,7 +6,7 @@
 /*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:12:11 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/06 17:42:22 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/06 17:48:53 by michel_32        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 class Base {
 public:
 
-    ~Base(void);
+   virtual ~Base(void);
 };
 
 Base *generate(void);
