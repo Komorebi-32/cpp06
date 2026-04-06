@@ -123,12 +123,12 @@ static void print_result(int i, float f, double d)
 		char c = static_cast<char>(i);
 		std::cout << "char: '" << c << "'" << std::endl;
 	}
-	else if (i > 127 || i < 0)
+	else if (i > 127 || i < 0 || std::isnan(d))
 		std::cout << "char: impossible" << std::endl;
 	else
 		std::cout << "char: Non displayable" << std::endl;
 	
-	if (f >= INT_MIN && f <= INT_MAX)
+	if (d >= static_cast<double>(INT_MIN) && d <= static_cast<double>(INT_MAX) && !std::isnan(d))
 		std::cout << "int: " << i << std::endl;
 	else
 		std::cout << "int: impossible" << std::endl;
@@ -182,7 +182,7 @@ void ScalarConverter::convert(const std::string &input)
 	case FLOAT:
 	{
 		float f = std::strtof(input.c_str(), NULL);
-		int i = static_cast<float>(f);
+		int i = static_cast<int>(f);
 		double d = static_cast<double>(f);
 
 		print_result(i, f, d);
