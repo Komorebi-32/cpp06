@@ -6,7 +6,7 @@
 /*   By: bkaras-g <bkaras-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:11:18 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/19 17:05:13 by bkaras-g         ###   ########.fr       */
+/*   Updated: 2026/04/19 17:06:04 by bkaras-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,7 @@ void identify(Base* p)
         std::cout << "B" << std::endl;
         return ;
     }
-    C* c_ptr = dynamic_cast<C *>(p);
-    if (c_ptr)
-    {
-        std::cout << "C" << std::endl;
-        return ;
-    }
+    std::cout << "C" << std::endl;
 }
 
 void identify(Base& p)
