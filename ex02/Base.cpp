@@ -6,7 +6,7 @@
 /*   By: bkaras-g <bkaras-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:11:18 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/19 16:38:41 by bkaras-g         ###   ########.fr       */
+/*   Updated: 2026/04/19 17:05:13 by bkaras-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,11 @@ Base::~Base(void)
     std::cout << "Base destructor called" << std::endl;
 }
 
-// Base *generate(void);
-// void identify(Base* p);
-// void identify(Base& p);
-
 Base *generate(void)
 {
     static bool seeded = false;
     if (!seeded) {
-        std::srand(std::time(0));
+        std::srand(std::time(0)); //seeding a nice plant
         seeded = true;
     }
     int i = std::rand() % 3;
@@ -52,7 +48,7 @@ Base *generate(void)
 
 void identify(Base* p)
 {
-    std::cout << "type of the object pointed to by p: ";
+    std::cout << "identify (Base* p) - type of the object pointed to by p: ";
     A* a_ptr = dynamic_cast<A *>(p);
     if (a_ptr)
     {
@@ -71,4 +67,27 @@ void identify(Base* p)
         std::cout << "C" << std::endl;
         return ;
     }
+}
+
+void identify(Base& p)
+{
+    std::cout << "identify (Base& p) - type of the object pointed to by p: ";
+    try {
+        A& a_ref = dynamic_cast<A &>(p);
+        std::cout << "A" << std::endl;
+        (void) a_ref;
+        return ;
+    }
+    catch (std::exception &e){
+        try {
+            B& b_ref = dynamic_cast<B &>(p);
+            std::cout << "B" << std::endl;
+            (void) b_ref;
+            return ;
+        }
+        catch (std::exception &e){
+            std::cout << "C" << std::endl;
+        }
+    }
+
 }
