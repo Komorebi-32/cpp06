@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Base.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michel_32 <michel_32@student.42.fr>        +#+  +:+       +#+        */
+/*   By: bkaras-g <bkaras-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:11:18 by michel_32         #+#    #+#             */
-/*   Updated: 2026/04/06 17:51:28 by michel_32        ###   ########.fr       */
+/*   Updated: 2026/04/19 16:24:36 by bkaras-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ Base::~Base(void)
 
 Base *generate(void)
 {
+    static bool seeded = false;
+    if (!seeded) {
+        std::srand(std::time(0));
+        seeded = true;
+    }
     int i = std::rand() % 3;
 
     if (i == 0)
